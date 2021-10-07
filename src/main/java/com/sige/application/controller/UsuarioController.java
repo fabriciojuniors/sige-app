@@ -45,7 +45,7 @@ public class UsuarioController {
 
     public Page<Usuario> getByNivel(String n, int pagina){
         Nivel nivel = null;
-        Pageable page = PageRequest.of(pagina-1,10);
+        Pageable page = PageRequest.of(pagina-1,5);
         if(n.equals("T")){
             return repository.findAll(page);
         }
