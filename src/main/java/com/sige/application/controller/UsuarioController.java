@@ -64,4 +64,9 @@ public class UsuarioController {
         return usuario;
     }
 
+    public Usuario getById(int id){
+        Usuario usuario = repository.getById((long) id);
+        return usuario;
+    }
+
 }

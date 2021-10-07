@@ -25,6 +25,11 @@ public class UsuarioResource {
         return controller.getByNivel(nivel, pagina);
     }
 
+    @GetMapping(path = "/{id}")
+    public Usuario getByNivel(@PathVariable int id){
+        return controller.getById(id);
+    }
+
     @PostMapping(path = "/autenticar")
     public Usuario autenticar(@RequestBody Usuario u){
         return controller.autenticar(u);
