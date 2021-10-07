@@ -45,13 +45,15 @@ public class UsuarioController {
 
     public Page<Usuario> getByNivel(String n, int pagina){
         Nivel nivel = null;
+        Pageable page = PageRequest.of(pagina-1,20);
+        if(n.equals("T")){
+            return repository.findAll(page);
+        }
         try{
             nivel = Nivel.valueOf(n.toUpperCase());
         }catch (Exception ex){
             throw new CampoException("usuario.nivel", "Nível inválido", "Verifique o nível informado e tente novamente", ExceptionOperacao.L);
         }
-
-        Pageable page = PageRequest.of(pagina-1,20);
 
         return repository.findByNivel(nivel, page);
     }
