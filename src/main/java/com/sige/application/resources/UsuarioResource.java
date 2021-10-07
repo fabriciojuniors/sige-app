@@ -25,8 +25,8 @@ public class UsuarioResource {
         return controller.getByNivel(nivel, pagina);
     }
 
-    @GetMapping(path = "/{id}")
-    public Usuario getByNivel(@PathVariable int id){
+    @GetMapping(path = "/busca/{id}")
+    public Usuario getById(@PathVariable int id){
         return controller.getById(id) ;
     }
 
