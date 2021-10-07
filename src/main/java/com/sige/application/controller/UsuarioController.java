@@ -14,6 +14,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.logging.Logger;
+
 
 @Service
 public class UsuarioController {
@@ -65,8 +67,8 @@ public class UsuarioController {
     }
 
     public Usuario getById(int id){
-        Usuario usuario = repository.getById((long) id);
-        return usuario ;
+        Usuario usuario = repository.findById((long) id).get();
+        return usuario;
     }
 
 }

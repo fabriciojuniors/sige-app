@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import com.sige.application.controller.*;
 
 import javax.websocket.server.PathParam;
+import java.util.logging.Logger;
 
 @RestController()
 @RequestMapping("/usuario")
