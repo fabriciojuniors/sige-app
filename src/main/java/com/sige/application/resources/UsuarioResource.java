@@ -28,7 +28,7 @@ public class UsuarioResource {
 
     @GetMapping(path = "/busca/{id}")
     public Usuario getById(@PathVariable int id){
-        return controller.getById(id) ;
+        return controller.getById(id);
     }
 
     @PostMapping(path = "/autenticar")
