@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.logging.Logger;
@@ -45,7 +46,7 @@ public class UsuarioController {
 
     public Page<Usuario> getByNivel(String n, int pagina){
         Nivel nivel = null;
-        Pageable page = PageRequest.of(pagina-1,5);
+        Pageable page = PageRequest.of(pagina-1,5,Sort.by(Sort.Order.by("id")));
         if(n.equals("T")){
             return repository.findAll(page);
         }
