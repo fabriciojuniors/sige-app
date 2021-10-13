@@ -28,19 +28,16 @@ public class UsuarioController {
     EnderecoRepository enderecoRepository;
 
     public Usuario save(Usuario u){
-        if(u.getId() == 0L || u.getId() == null){
-            if(!repository.findByEmail(u.getEmail()).isEmpty()){
-                throw new CampoException("usuario.email", "E-mail informado já cadastrado.", "O e-mail informado já está cadastrado, informe outro e-mail ou redefina sua senha.", ExceptionOperacao.C);
-            }
-            if(!repository.findByCpf(u.getCpf()).isEmpty()){
-                throw new CampoException("usuario.cpf", "CPF informado já cadastrado.", "", ExceptionOperacao.C);
-            }
+
+        if(!repository.findByEmail(u.getEmail()).isEmpty()){
+            throw new CampoException("usuario.email", "E-mail informado já cadastrado.", "O e-mail informado já está cadastrado, informe outro e-mail ou redefina sua senha.", ExceptionOperacao.C);
+        }
+        if(!repository.findByCpf(u.getCpf()).isEmpty()){
+            throw new CampoException("usuario.cpf", "CPF informado já cadastrado.", "", ExceptionOperacao.C);
         }
 
-        if(u.getEndereco().getId() == 0L || u.getEndereco().getId() == null){
-            Endereco endereco = enderecoRepository.save(u.getEndereco());
-            u.setEndereco(endereco);
-        }
+        Endereco endereco = enderecoRepository.save(u.getEndereco());
+        u.setEndereco(endereco);
         return repository.save(u);
     }
 
