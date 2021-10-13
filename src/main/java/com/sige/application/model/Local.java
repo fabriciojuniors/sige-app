@@ -20,7 +20,7 @@ public class Local implements Serializable {
     @NotBlank(message = "O nome não pode ser vazio")
     private String nome;
 
-    @Column(name = "informacoes_adicionais", nullable = true, length = 500)
+    @Column(name = "informacoes_adicionais", nullable = true, length = 255)
     private String informacoesAdicionais;
 
     @JoinColumn(name = "id_endereco", referencedColumnName = "id", nullable = true)
