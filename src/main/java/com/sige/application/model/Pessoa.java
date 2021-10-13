@@ -3,6 +3,8 @@ package com.sige.application.model;
 import com.sige.application.enums.Sexo;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -11,9 +13,13 @@ import java.util.List;
 public class Pessoa {
 
     @Column(name = "cpf", nullable = false, unique = true, length = 11)
+    @NotNull(message = "CPF não pode ser nulo")
+    @NotBlank(message = "CPF não pode ser nulo")
     private String cpf;
 
     @Column(name = "nome", nullable = false, length = 120)
+    @NotNull(message = "Nome não pode ser nulo")
+    @NotBlank(message = "Nome não pode ser nulo")
     private String nome;
 
     @Column(name = "sexo", nullable = false)
@@ -21,9 +27,12 @@ public class Pessoa {
     private Sexo sexo;
 
     @Column(name = "dt_nascimento", nullable = false)
+    @NotNull(message = "Data de Nascimento não pode ser nula")
     private LocalDate nascimento;
 
     @Column(name = "telefone")
+    @NotNull(message = "Telefone não pode ser nula")
+    @NotBlank(message = "Telefone não pode ser nula")
     private String telefone;
 
     @JoinColumn(name = "id_endereco", referencedColumnName = "id", nullable = false)

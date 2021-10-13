@@ -3,9 +3,11 @@ package com.sige.application.resources;
 import com.sige.application.model.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.sige.application.controller.*;
 
+import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import java.util.logging.Logger;
 
@@ -17,8 +19,8 @@ public class UsuarioResource {
     UsuarioController controller;
 
     @PostMapping
-    public Usuario save(@RequestBody Usuario u){
-        return controller.save(u);
+    public ResponseEntity<Usuario> save(@Valid @RequestBody Usuario u){
+        return ResponseEntity.ok(controller.save(u));
     }
 
     @GetMapping(path = "/{nivel}")

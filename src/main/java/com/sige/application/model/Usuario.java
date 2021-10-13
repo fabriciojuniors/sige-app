@@ -2,8 +2,12 @@ package com.sige.application.model;
 
 import com.sige.application.enums.Nivel;
 import com.sige.application.enums.Sexo;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
@@ -16,16 +20,22 @@ public class Usuario extends Pessoa implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
+    @NotNull(message = "ID não pode ser nulo")
     private Long id;
 
     @Column(name = "nivel", nullable = false)
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "Nivel não pode ser nulo")
     private Nivel nivel;
 
     @Column(name = "email", nullable = false, unique = true, length = 120)
+    @NotNull(message = "Email não pode ser nulo")
+    @NotEmpty(message = "Email não pode ser nulo")
     private String email;
 
     @Column(name = "senha", nullable = false, length = 120)
+    @NotNull(message = "Senha não pode ser nulo")
+    @NotEmpty(message = "Senha não pode ser nulo")
     private String senha;
 
     public Usuario(String cpf, String nome, Sexo sexo, LocalDate nascimento,
