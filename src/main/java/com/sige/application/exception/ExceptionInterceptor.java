@@ -50,12 +50,13 @@ public class ExceptionInterceptor {
             MethodArgumentNotValidException ex) {
         ExceptionSchema[] execao = new ExceptionSchema[1];
         Map<String, String> errors = new HashMap<>();
-        String msg = "";
+        Map<String, String> e = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
-            msg.concat(error.getDefaultMessage() + "\n");
-
+            errors.put(((FieldError) error).getField(), error.getDefaultMessage());
+            ExceptionSchema exe = new ExceptionSchema(((FieldError) error).getField(), error.getDefaultMessage(), error.getDefaultMessage(), ExceptionOperacao.C);
+            execao[0] = exe;
         });
-        errors.put("mensagem", msg);
+        e.put("mensagem", errors.toString());
         return new ResponseEntity(errors, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
