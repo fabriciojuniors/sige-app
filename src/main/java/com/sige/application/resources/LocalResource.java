@@ -26,4 +26,9 @@ public class LocalResource {
         return controller.getAll(pagina);
     }
 
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable int id){
+        controller.delete(id);
+    }
+
 }
