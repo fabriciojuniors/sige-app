@@ -36,4 +36,9 @@ public class UsuarioResource {
         return controller.autenticar(u);
     }
 
+    @DeleteMapping(path = "/{id}")
+    public void delete(@PathVariable int id){
+        controller.delete(id);
+    }
+
 }

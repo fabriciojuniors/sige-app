@@ -70,8 +70,23 @@ public class UsuarioController {
     }
 
     public Usuario getById(int id){
-        Usuario usuario = repository.findById((long) id).get();
-        return usuario ;
+        Usuario usuario = null;
+        try{
+            usuario = repository.findById((long) id).get();
+        }catch (Exception e){
+            Logger.getLogger("DELETE USUARIO: Não encontrado usuario com ID " + id);
+        }
+        return usuario;
+    }
+
+    public void delete(int id){
+        Usuario usuario = getById(id);
+
+        if(usuario == null){
+            throw new CampoException("usuario.id", "Não foi possível excluir o usuário.", "Não encontrado usuário com ID " + id + " para exclusão.", ExceptionOperacao.D);
+        }else{
+            repository.delete(usuario);
+        }
     }
 
 }
