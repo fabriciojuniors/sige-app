@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 
@@ -28,12 +29,22 @@ public class UsuarioController {
     EnderecoRepository enderecoRepository;
 
     public Usuario save(Usuario u){
+        List<Usuario> validaEmail = repository.findByEmail(u.getEmail());
+        List<Usuario> validaCPF = repository.findByCpf(u.getCpf());
+        if(!validaEmail.isEmpty()){
+            for(Usuario usuario : validaEmail){
+                if(!u.equals(usuario)){
+                    throw new CampoException("usuario.email", "E-mail informado já cadastrado.", "O e-mail informado já está cadastrado, informe outro e-mail ou redefina sua senha.", ExceptionOperacao.C);
+                }
+            }
 
-        if(!repository.findByEmail(u.getEmail()).isEmpty()){
-            throw new CampoException("usuario.email", "E-mail informado já cadastrado.", "O e-mail informado já está cadastrado, informe outro e-mail ou redefina sua senha.", ExceptionOperacao.C);
         }
-        if(!repository.findByCpf(u.getCpf()).isEmpty()){
-            throw new CampoException("usuario.cpf", "CPF informado já cadastrado.", "", ExceptionOperacao.C);
+        if(!validaCPF.isEmpty()){
+            for(Usuario usuario : validaCPF){
+                if(!u.equals(usuario)){
+                    throw new CampoException("usuario.cpf", "CPF informado já cadastrado.", "", ExceptionOperacao.C);
+                }
+            }
         }
 
         Endereco endereco = enderecoRepository.save(u.getEndereco());
