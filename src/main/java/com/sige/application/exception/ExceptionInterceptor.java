@@ -51,7 +51,7 @@ public class ExceptionInterceptor {
         ExceptionSchema[] execao = new ExceptionSchema[1];
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
-            errors.put(((FieldError) error).getField(), error.getDefaultMessage());
+            errors.put("campo", error.getDefaultMessage());
             ExceptionSchema exe = new ExceptionSchema(((FieldError) error).getField(), error.getDefaultMessage(), error.getDefaultMessage(), ExceptionOperacao.C);
             execao[0] = exe;
         });
