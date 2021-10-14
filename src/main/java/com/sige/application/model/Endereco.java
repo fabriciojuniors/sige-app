@@ -38,10 +38,10 @@ public class Endereco implements Serializable {
     @Column(name = "complemento", nullable = true)
     private String complemento;
 
-    @Column(name = "cep", nullable = false, length = 8)
+    @Column(name = "cep", nullable = false, length = 9)
     @NotNull(message = "O CEP não pode ser nulo")
     @NotBlank(message = "O CEP não pode ser nulo")
-    @Max(value = 8, message = "O tamanho do CEP é 8 digitos")
+    @Max(value = 9, message = "O tamanho do CEP é 8 digitos")
     @Min(value = 8, message = "O tamanho do CEP é 8 digitos")
     private String cep;
 
