@@ -1,6 +1,7 @@
 package com.sige.application.model;
 
 import com.sige.application.enums.Sexo;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -16,6 +17,7 @@ public class Pessoa {
     @Column(name = "cpf", nullable = false, unique = true, length = 11)
     @NotNull(message = "CPF não pode ser nulo")
     @NotBlank(message = "CPF não pode ser nulo")
+    @CPF(message = "CPF informado não é valido")
     private String cpf;
 
     @Column(name = "nome", nullable = false, length = 120)
@@ -25,6 +27,7 @@ public class Pessoa {
 
     @Column(name = "sexo", nullable = false)
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "O sexo não pode ser nulo")
     private Sexo sexo;
 
     @Column(name = "dt_nascimento", nullable = false)

@@ -5,9 +5,7 @@ import com.sige.application.enums.Sexo;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
@@ -31,11 +29,13 @@ public class Usuario extends Pessoa implements Serializable {
     @Column(name = "email", nullable = false, unique = true, length = 120)
     @NotNull(message = "Email não pode ser nulo")
     @NotEmpty(message = "Email não pode ser nulo")
+    @Email(message = "Email informado não é valido")
     private String email;
 
     @Column(name = "senha", nullable = false, length = 120)
     @NotNull(message = "Senha não pode ser nulo")
     @NotEmpty(message = "Senha não pode ser nulo")
+    @Size(min = 6, max = 60, message = "A senha deve possuir entre 6 e 60 caracteres")
     private String senha;
 
     public Usuario(String cpf, String nome, Sexo sexo, LocalDate nascimento,
