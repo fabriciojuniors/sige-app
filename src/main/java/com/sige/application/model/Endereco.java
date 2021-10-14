@@ -3,6 +3,10 @@ package com.sige.application.model;
 import com.sige.application.enums.UF;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
@@ -15,6 +19,8 @@ public class Endereco implements Serializable {
     private Long id;
 
     @Column(name = "rua", nullable = false)
+    @NotNull(message = "A rua não pode ser nula")
+    @NotBlank(message = "A rua não pode ser nula")
     private String rua;
 
     @Column(name = "numero", nullable = false)
@@ -25,12 +31,18 @@ public class Endereco implements Serializable {
     private UF uf;
 
     @Column(name = "cidade", nullable = false)
+    @NotNull(message = "A cidade não pode ser nula")
+    @NotBlank(message = "A cidade não pode ser nula")
     private String cidade;
 
     @Column(name = "complemento", nullable = true)
     private String complemento;
 
     @Column(name = "cep", nullable = false, length = 8)
+    @NotNull(message = "O CEP não pode ser nulo")
+    @NotBlank(message = "O CEP não pode ser nulo")
+    @Max(value = 8, message = "O tamanho do CEP é 8 digitos")
+    @Min(value = 8, message = "O tamanho do CEP é 8 digitos")
     private String cep;
 
     public Endereco(Long id, String rua, int numero, UF uf, String cidade, String complemento, String cep) {
