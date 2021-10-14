@@ -3,6 +3,7 @@ package com.sige.application.model;
 import com.sige.application.enums.Sexo;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -37,6 +38,7 @@ public class Pessoa {
 
     @JoinColumn(name = "id_endereco", referencedColumnName = "id", nullable = false)
     @OneToOne(fetch = FetchType.EAGER)
+    @Valid
     private Endereco endereco;
 
     @OneToMany(fetch = FetchType.LAZY)
