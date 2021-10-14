@@ -1,6 +1,7 @@
 package com.sige.application.model;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -25,6 +26,7 @@ public class Local implements Serializable {
 
     @JoinColumn(name = "id_endereco", referencedColumnName = "id", nullable = true)
     @OneToOne(fetch = FetchType.EAGER)
+    @Valid
     private Endereco endereco;
 
     @Column(name = "capacidade", nullable = false)
