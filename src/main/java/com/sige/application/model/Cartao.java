@@ -12,7 +12,7 @@ public class Cartao implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "numero", nullable = false)
+    @Column(name = "numero", nullable = false, length = 100)
     private String numero;
 
     @Column(name = "mes_vencimento", nullable = false)

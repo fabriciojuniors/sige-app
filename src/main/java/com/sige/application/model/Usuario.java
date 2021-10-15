@@ -21,7 +21,7 @@ public class Usuario extends Pessoa implements Serializable {
     @NotNull(message = "ID não pode ser nulo")
     private Long id;
 
-    @Column(name = "nivel", nullable = false)
+    @Column(name = "nivel", nullable = false, length = 1)
     @Enumerated(EnumType.STRING)
     @NotNull(message = "Nivel não pode ser nulo")
     private Nivel nivel;

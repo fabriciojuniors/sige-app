@@ -23,7 +23,7 @@ public class Endereco implements Serializable {
     @Column(name = "numero", nullable = false)
     private int numero;
 
-    @Column(name = "uf")
+    @Column(name = "uf", length = 2)
     @Enumerated(EnumType.STRING)
     @NotNull(message = "A UF não pode ser nula")
     private UF uf;

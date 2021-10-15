@@ -33,7 +33,7 @@ public class Local implements Serializable {
     @Min(value = 1, message = "A capacidade não pode ser inferior a 1")
     private int capacidade;
 
-    @Column(name = "telefone", nullable = false)
+    @Column(name = "telefone", nullable = false, length = 20)
     @NotNull(message = "O telefone não pode ser nulo")
     @NotBlank(message = "O telefone não pode ser branco")
     private String telefone;

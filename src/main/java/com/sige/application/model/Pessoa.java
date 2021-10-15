@@ -25,7 +25,7 @@ public class Pessoa {
     @NotBlank(message = "Nome não pode ser nulo")
     private String nome;
 
-    @Column(name = "sexo", nullable = false)
+    @Column(name = "sexo", nullable = false, length = 1)
     @Enumerated(EnumType.STRING)
     @NotNull(message = "O sexo não pode ser nulo")
     private Sexo sexo;
@@ -34,7 +34,7 @@ public class Pessoa {
     @NotNull(message = "Data de Nascimento não pode ser nula")
     private LocalDate nascimento;
 
-    @Column(name = "telefone")
+    @Column(name = "telefone", length = 20)
     @NotNull(message = "Telefone não pode ser nula")
     @NotBlank(message = "Telefone não pode ser nula")
     private String telefone;
