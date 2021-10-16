@@ -2,6 +2,7 @@
 <!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Locais" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3fe98990-6255-49c0-a3e7-ca34db4745d9">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Dados.xml"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT local.id,
 	local.nome,
@@ -53,9 +54,9 @@ FROM local]]>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="3" y="0" width="410" height="20" uuid="892d4277-9f24-44d1-9575-850d9fd7976b"/>
+				<reportElement x="3" y="0" width="410" height="30" uuid="892d4277-9f24-44d1-9575-850d9fd7976b"/>
 				<textElement>
-					<font fontName="Arial" size="16" isBold="true" isUnderline="true"/>
+					<font fontName="SansSerif" size="16" isBold="true" isUnderline="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["SIGE - Relatório de Locais"]]></textFieldExpression>
 			</textField>
