@@ -21,7 +21,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @RestController()
-@RequestMapping("/rel")
+@RequestMapping("/relatorio")
 public class Relatorio {
 
     @Autowired
@@ -39,7 +39,7 @@ public class Relatorio {
         JasperExportManager.exportReportToPdfStream(print, stream);
     }
 
-    @GetMapping
+    @GetMapping(value = "/locais")
     public void rel(HttpServletResponse response) throws IOException, JRException, SQLException {
         /*
             PARA BAIXAR O PDF DIRETAMENTE
