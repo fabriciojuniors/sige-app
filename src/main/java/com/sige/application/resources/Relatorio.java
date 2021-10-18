@@ -1,24 +1,20 @@
 package com.sige.application.resources;
 
+import com.sige.application.enums.Relatorios;
 import net.sf.jasperreports.engine.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
-import java.io.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
+import java.util.Map;
 
 @RestController()
 @RequestMapping("/relatorio")
@@ -27,15 +23,15 @@ public class Relatorio {
     @Autowired
     DataSource dataSource;
 
-    public JasperPrint export() throws JRException, FileNotFoundException, SQLException {
-        InputStream jasperStream = this.getClass().getResourceAsStream("/Locais.jrxml");
+    public JasperPrint export(Relatorios relatorio, Map<String, Object> parametros) throws JRException, FileNotFoundException, SQLException {
+        InputStream jasperStream = this.getClass().getResourceAsStream(relatorio.getArquivo());
         JasperReport s = JasperCompileManager.compileReport(jasperStream);
-        JasperPrint print = JasperFillManager.fillReport(s, null,  dataSource.getConnection());
+        JasperPrint print = JasperFillManager.fillReport(s, parametros,  dataSource.getConnection());
         return print;
     }
 
-    public void exportReport(OutputStream stream) throws JRException, FileNotFoundException, SQLException {
-        JasperPrint print = export();
+    public void exportReport(OutputStream stream, Relatorios relatorio, Map<String, Object> parametros) throws JRException, FileNotFoundException, SQLException {
+        JasperPrint print = export(relatorio, parametros);
         JasperExportManager.exportReportToPdfStream(print, stream);
     }
 
@@ -52,7 +48,7 @@ public class Relatorio {
         response.setHeader("Content-Disposition", "inline; filename=Locais.pdf");
 
         OutputStream outputStream = response.getOutputStream();
-        exportReport(outputStream);
+        exportReport(outputStream, Relatorios.LOCAIS, null);
     }
 
 }
