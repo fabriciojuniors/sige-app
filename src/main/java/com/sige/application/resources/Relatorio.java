@@ -1,16 +1,17 @@
 package com.sige.application.resources;
 
 import com.sige.application.enums.Relatorios;
+import com.sige.application.exception.RelatorioNaoEncontradoException;
 import net.sf.jasperreports.engine.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
@@ -35,8 +36,14 @@ public class Relatorio {
         JasperExportManager.exportReportToPdfStream(print, stream);
     }
 
-    @GetMapping(value = "/locais")
-    public void rel(HttpServletResponse response) throws IOException, JRException, SQLException {
+    @GetMapping(value = "/{relatorio}")
+    public void rel(HttpServletResponse response, @PathVariable(name = "relatorio") String r) throws Exception {
+        Relatorios relatorio = null;
+        try{
+            relatorio = Relatorios.valueOf(r.toUpperCase());
+        }catch (Exception ex){
+            throw new RelatorioNaoEncontradoException(r);
+        }
         /*
             PARA BAIXAR O PDF DIRETAMENTE
             response.setContentType("application/x-download");
@@ -45,10 +52,11 @@ public class Relatorio {
 
         //PARA ABRIR O PDF NO NAVEGADOR
         response.setContentType("application/pdf");
-        response.setHeader("Content-Disposition", "inline; filename=Locais.pdf");
+        response.setHeader("Content-Disposition", "inline; filename="+relatorio.getPdf());
 
         OutputStream outputStream = response.getOutputStream();
-        exportReport(outputStream, Relatorios.LOCAIS, null);
+        exportReport(outputStream, relatorio, null);
+
     }
 
 }

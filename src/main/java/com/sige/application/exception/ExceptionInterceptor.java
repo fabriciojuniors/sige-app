@@ -27,6 +27,12 @@ public class ExceptionInterceptor {
         return new ResponseEntity(execao, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler({RelatorioNaoEncontradoException.class})
+    public final ResponseEntity<Object> handleAllExceptions(RelatorioNaoEncontradoException ex) {
+        ExceptionSchema execao = new ExceptionSchema(ex.getCampo(), ex.getMensagem(), ex.getDetalhes(), ex.getOperacao());
+        return new ResponseEntity(execao, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler({Exception.class})
     public final ResponseEntity<Object> handleAllExceptions(Exception ex) {
         ExceptionSchema execao = new ExceptionSchema(ex.getClass().getName(), ex.getMessage(), ex.getCause().getMessage(), null);
