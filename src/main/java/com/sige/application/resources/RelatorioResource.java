@@ -19,7 +19,7 @@ import java.util.Map;
 
 @RestController()
 @RequestMapping("/relatorio")
-public class Relatorio {
+public class RelatorioResource {
 
     @Autowired
     DataSource dataSource;
