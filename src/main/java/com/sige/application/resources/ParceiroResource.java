@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 
 @RestController
@@ -16,7 +17,7 @@ public class ParceiroResource {
     ParceiroController controller;
 
     @PostMapping
-    public Parceiro save(@RequestBody Parceiro parceiro){
+    public Parceiro save(@Valid @RequestBody Parceiro parceiro){
         return controller.save(parceiro);
     }
 
