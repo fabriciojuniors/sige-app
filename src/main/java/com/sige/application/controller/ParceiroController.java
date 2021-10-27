@@ -2,8 +2,10 @@ package com.sige.application.controller;
 
 import com.sige.application.enums.ExceptionOperacao;
 import com.sige.application.exception.CampoException;
+import com.sige.application.model.Endereco;
 import com.sige.application.model.Local;
 import com.sige.application.model.Parceiro;
+import com.sige.application.repository.EnderecoRepository;
 import com.sige.application.repository.ParceiroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,7 +19,14 @@ public class ParceiroController {
     @Autowired
     ParceiroRepository repository;
 
+    @Autowired
+    EnderecoRepository enderecoRepository;
+
     public Parceiro save(Parceiro parceiro){
+
+        Endereco endereco = enderecoRepository.save(parceiro.getEndereco());
+        parceiro.setEndereco(endereco);
+
         return repository.save(parceiro);
     }
 
