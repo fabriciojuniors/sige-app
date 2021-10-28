@@ -1,7 +1,8 @@
 package com.sige.application.enums;
 
 public enum Relatorios {
-    LOCAIS("/Locais.jrxml", "Locais.pdf");
+    LOCAIS("/Locais.jrxml", "Locais.pdf"),
+    USUARIO("/Usuario.jrxml", "Usuario.pdf");
 
     private String arquivo;
     private String pdf;
