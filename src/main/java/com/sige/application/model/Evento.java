@@ -39,8 +39,6 @@ public class Evento implements Serializable {
 
     @JoinColumn(name = "id_local", referencedColumnName = "id", nullable = false)
     @ManyToOne(fetch = FetchType.EAGER)
-    @NotBlank(message = "O local é obrigatório")
-    @NotNull(message = "O local é obrigatório")
     private Local local;
 
     @OneToMany(fetch = FetchType.EAGER)
