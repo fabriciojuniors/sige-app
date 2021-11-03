@@ -36,8 +36,7 @@ public class Evento implements Serializable {
     private Time hora;
 
     @Column(name = "duracao", nullable = false)
-    @NotNull(message = "A duração é obrigatória")
-    @NotBlank(message = "A duração é obrigatória")
+    @Min(value = 1, message = "A duração deve ser no minimo 1 minuto.")
     private double duracao;
 
     @JoinColumn(name = "id_local", referencedColumnName = "id", nullable = false)
