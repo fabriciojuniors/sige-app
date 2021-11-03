@@ -41,9 +41,9 @@ public class LocalResource {
         return repository.findAll();
     }
 
-    @GetMapping("/{id}")
-    public void getById(@PathVariable int id){
-        repository.findById((long) id).get();
+    @GetMapping(path = "/busca/{id}")
+    public Local getById(@PathVariable int id){
+        return repository.findById((long) id).get();
     }
 
 }
