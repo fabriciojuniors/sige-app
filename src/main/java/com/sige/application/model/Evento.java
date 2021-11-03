@@ -33,8 +33,6 @@ public class Evento implements Serializable {
     private LocalDate data;
 
     @Column(name = "hora", nullable = false)
-    @NotNull(message = "A hora é obrigatória")
-    @NotBlank(message = "A hora é obrigatória")
     private Time hora;
 
     @Column(name = "duracao", nullable = false)
