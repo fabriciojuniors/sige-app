@@ -42,7 +42,7 @@ public class Evento implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     private Local local;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     private List<Parceiro> parceiros;
 
     @Column(name = "valor_ingresso", nullable = false)
