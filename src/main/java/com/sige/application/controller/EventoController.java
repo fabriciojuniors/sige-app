@@ -19,7 +19,14 @@ public class EventoController {
     EventoRepository repository;
 
     public Evento save(Evento evento){
-        return repository.save(evento);
+        Local local = evento.getLocal();
+
+        if(local == null || local.getId().equals(null) || local.getId() == 0){
+            throw new CampoException("evento.local", "Local é obrigatório", "Não informado local para o evento", ExceptionOperacao.C);
+        }else{
+            return repository.save(evento);
+        }
+
     }
 
     public Page<Evento> getAll(int pagina){
