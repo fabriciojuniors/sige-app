@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
@@ -136,6 +137,11 @@ public class Evento implements Serializable {
 
     public void setValorIngresso(double valorIngresso) {
         this.valorIngresso = valorIngresso;
+    }
+
+    public String getDataFormatada(){
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return this.data.format(formato);
     }
 
     @Override
