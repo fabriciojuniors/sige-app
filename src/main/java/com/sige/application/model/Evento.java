@@ -42,7 +42,8 @@ public class Evento implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     private Local local;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(referencedColumnName = "id", nullable = true)
     private List<Parceiro> parceiros;
 
     @Column(name = "valor_ingresso", nullable = false)
