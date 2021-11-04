@@ -1,6 +1,7 @@
 package com.sige.application.model;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -40,6 +41,7 @@ public class Evento implements Serializable {
 
     @JoinColumn(name = "id_local", referencedColumnName = "id", nullable = false)
     @ManyToOne(fetch = FetchType.EAGER)
+    @Valid
     private Local local;
 
     @OneToMany(fetch = FetchType.EAGER)
