@@ -52,7 +52,7 @@ public class Evento implements Serializable {
     @Column(name = "imagem64", columnDefinition = "TEXT")
     private String imagem64;
 
-    public Evento(Long id, String nome, String detalhes, LocalDate data, Time hora, double duracao, Local local, List<Parceiro> parceiros, double valorIngresso) {
+    public Evento(Long id, String nome, String detalhes, LocalDate data, Time hora, double duracao, Local local, List<Parceiro> parceiros, double valorIngresso, String imagem64) {
         this.id = id;
         this.nome = nome;
         this.detalhes = detalhes;
@@ -62,6 +62,7 @@ public class Evento implements Serializable {
         this.local = local;
         this.parceiros = parceiros;
         this.valorIngresso = valorIngresso;
+        this.imagem64 = imagem64;
     }
 
     public Evento() {
@@ -142,6 +143,14 @@ public class Evento implements Serializable {
     public String getDataFormatada(){
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return this.data.format(formato);
+    }
+
+    public String getImagem64() {
+        return imagem64;
+    }
+
+    public void setImagem64(String imagem64) {
+        this.imagem64 = imagem64;
     }
 
     @Override
