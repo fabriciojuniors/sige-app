@@ -39,6 +39,11 @@ public class EventoController {
         return repository.findAll(pageable) ;
     }
 
+    public Page<Evento> getAllMobile(int pagina, String filtro){
+        Pageable pageable = PageRequest.of(pagina-1, 10);
+        return repository.findAllByNome(filtro, pageable);
+    }
+
     public void delete(int id){
         Evento evento = repository.findById((long) id).get();
         if(evento == null){

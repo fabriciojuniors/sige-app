@@ -32,6 +32,11 @@ public class EventoResource {
         return controller.getAllMobile(pagina);
     }
 
+    @GetMapping(value = "/mobile/{nome}")
+    public Page<Evento> getAllMobileFiltro(@PathVariable String nome,  @PathParam("pagina") int pagina){
+        return controller.getAllMobile(pagina, nome);
+    }
+
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id){
         controller.delete(id);
