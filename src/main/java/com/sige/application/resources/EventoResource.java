@@ -29,7 +29,7 @@ public class EventoResource {
 
     @GetMapping(value = "/mobile")
     public Page<Evento> getAllMobile(@PathParam("pagina") int pagina){
-        return controller.getAll(pagina);
+        return controller.getAllMobile(pagina);
     }
 
     @DeleteMapping("/{id}")
