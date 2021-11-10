@@ -47,13 +47,16 @@ public class Evento implements Serializable {
     private List<Parceiro> parceiros;
 
     @Column(name = "valor_ingresso", nullable = false)
-    @Min(value = 1, message = "O valor minimo é R$1")
+    @Min(value = 0, message = "O valor minimo é R$0")
     private double valorIngresso;
 
     @Column(name = "imagem64", columnDefinition = "TEXT")
     private String imagem64;
 
-    public Evento(Long id, String nome, String detalhes, LocalDate data, Time hora, double duracao, Local local, List<Parceiro> parceiros, double valorIngresso, String imagem64) {
+    @Column(name = "gera_certificado")
+    private boolean geraCertificado;
+
+    public Evento(Long id, String nome, String detalhes, LocalDate data, Time hora, double duracao, Local local, List<Parceiro> parceiros, double valorIngresso, String imagem64, boolean geraCertificado) {
         this.id = id;
         this.nome = nome;
         this.detalhes = detalhes;
@@ -64,9 +67,18 @@ public class Evento implements Serializable {
         this.parceiros = parceiros;
         this.valorIngresso = valorIngresso;
         this.imagem64 = imagem64;
+        this.geraCertificado = geraCertificado;
     }
 
     public Evento() {
+    }
+
+    public boolean isGeraCertificado() {
+        return geraCertificado;
+    }
+
+    public void setGeraCertificado(boolean geraCertificado) {
+        this.geraCertificado = geraCertificado;
     }
 
     public Long getId() {

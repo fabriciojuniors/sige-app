@@ -24,6 +24,13 @@ public class EventoController {
         if(local == null || local.getId().equals(null) || local.getId() == 0){
             throw new CampoException("evento.local", "Local é obrigatório", "Não informado local para o evento", ExceptionOperacao.C);
         }else{
+            if(evento.isGeraCertificado()){
+                evento.setValorIngresso(0);
+            }else{
+                if(evento.getValorIngresso() <= 1){
+                    throw new CampoException("evento.valorIngresso", "Valor informado deve ser superior a R$1", "Valor informado deve ser superior a R$1", ExceptionOperacao.C);
+                }
+            }
             return repository.save(evento);
         }
 
