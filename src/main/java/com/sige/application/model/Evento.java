@@ -47,7 +47,6 @@ public class Evento implements Serializable {
     private List<Parceiro> parceiros;
 
     @Column(name = "valor_ingresso", nullable = false)
-    @Min(value = 0, message = "O valor minimo é R$0")
     private double valorIngresso;
 
     @Column(name = "imagem64", columnDefinition = "TEXT")
