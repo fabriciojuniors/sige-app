@@ -30,17 +30,17 @@ public class EventoController {
     }
 
     public Page<Evento> getAll(int pagina){
-        Pageable pageable = PageRequest.of(pagina-1, 5);
+        Pageable pageable = PageRequest.of(pagina-1, 5, Sort.by(Sort.Order.by("id")));
         return repository.findAll(pageable);
     }
 
     public Page<Evento> getAllMobile(int pagina){
-        Pageable pageable = PageRequest.of(pagina-1, 10);
+        Pageable pageable = PageRequest.of(pagina-1, 10, Sort.by(Sort.Order.by("id")));
         return repository.findAll(pageable) ;
     }
 
     public Page<Evento> getAllMobile(int pagina, String filtro){
-        Pageable pageable = PageRequest.of(pagina-1, 10);
+        Pageable pageable = PageRequest.of(pagina-1, 10, Sort.by(Sort.Order.by("id")));
         return repository.findAllByNome(filtro, pageable);
     }
 
