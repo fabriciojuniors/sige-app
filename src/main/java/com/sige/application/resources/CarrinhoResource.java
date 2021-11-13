@@ -25,7 +25,7 @@ public class CarrinhoResource {
     @Autowired
     UsuarioRepository usuarioRepository;
 
-    @GetMapping(value = "/{userId}")
+    @GetMapping(value = "/{id}")
     public Carrinho getByUsuario(@PathVariable int id){
         Usuario usuario = usuarioRepository.findById((long) id).get();
 
