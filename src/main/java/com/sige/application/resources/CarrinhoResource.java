@@ -99,7 +99,9 @@ public class CarrinhoResource {
                 Ingresso ingresso = ingressoRepository.save(itemCarrinho.getIngresso());
                 itemCarrinho.setIngresso(ingresso);
                 itemCarrinho = itemCarrinhoRepository.save(itemCarrinho);
-                valorTotal += itemCarrinho.getIngresso().getEvento().getValorIngresso();
+                if(!itemCarrinho.getIngresso().getEvento().isGeraCertificado()){
+                    valorTotal += itemCarrinho.getIngresso().getEvento().getValorIngresso();
+                }
             }
 
             carrinho.setValorTotal(valorTotal);
