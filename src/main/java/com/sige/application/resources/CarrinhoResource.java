@@ -60,6 +60,7 @@ public class CarrinhoResource {
     public Carrinho save(@Valid @RequestBody Carrinho carrinho){
         if(!carrinho.getItemCarrinhos().isEmpty()){
             Parametros parametros = parametrosRepository.findById(1L).get();
+            Logger.getLogger("PARAMETROS").info("Percentual permitido: " + parametros.getPercentualCapacidade());
             List<ItemCarrinho> itens = carrinho.getItemCarrinhos();
             Map<Evento, Integer> eventos = new HashMap<Evento, Integer>();
 
@@ -74,8 +75,9 @@ public class CarrinhoResource {
                 }
             });
 
+            //Valida a quantidade de ingressos e se a compra poderá prosseguir
             eventos.forEach((evento, qtd) -> {
-                long permitidaLocal = evento.getLocal().getCapacidadeDisponivel(parametros);
+                Integer permitidaLocal = evento.getLocal().getCapacidade() * parametros.getPercentualCapacidade() / 100;
                 long vendido = eventoRepository.getIngressosVendidos(evento);
                 long previsao = vendido + qtd;
                 long permitidaVenda = permitidaLocal - vendido;
@@ -86,7 +88,7 @@ public class CarrinhoResource {
                 Logger.getLogger("EVENTO").info("Permitida venda: " + permitidaVenda);
 
                 if(vendido >= permitidaLocal  || previsao >= permitidaLocal){
-                    if(permitidaLocal < vendido){
+                    if(permitidaLocal < vendido || previsao > permitidaLocal){
                         throw new CampoException("local.capacidade", "Para este evento os ingressos disponíveis são " + permitidaVenda, "Para este evento os ingressos disponíveis são " + permitidaVenda, ExceptionOperacao.C);
                     }else{
                         throw new CampoException("local.capacidade", "Para este evento já foram vendidos todos os ingressos.", "Para este evento já foram vendidos todos os ingressos.", ExceptionOperacao.C);

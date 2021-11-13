@@ -98,15 +98,6 @@ public class Local implements Serializable {
         this.telefone = telefone;
     }
 
-    public long getCapacidadeDisponivel(Parametros parametros){
-        int capacidade = this.capacidade;
-        int percentual = parametros.getPercentualCapacidade();
-
-        double permitida = (capacidade / 100) * percentual;
-
-        return Math.round(permitida);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
