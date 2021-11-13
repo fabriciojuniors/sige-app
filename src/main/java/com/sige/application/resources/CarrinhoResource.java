@@ -78,7 +78,7 @@ public class CarrinhoResource {
 
             //Valida a quantidade de ingressos e se a compra poderá prosseguir
             eventos.forEach((evento, qtd) -> {
-
+                Logger.getLogger(evento.getNome()).info(qtd+"");
                 if(qtd > parametros.getQtdPessoa()){
                     throw new CampoException("quantidade", "A quantidade máxima de ingressos por pessoa é " + parametros.getQtdPessoa(), "A quantidade máxima de ingressos por pessoa é " + parametros.getQtdPessoa(), ExceptionOperacao.C);
                 }
