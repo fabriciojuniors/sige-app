@@ -1,6 +1,7 @@
 package com.sige.application.resources;
 
 import com.sige.application.enums.ExceptionOperacao;
+import com.sige.application.enums.FormaPagamento;
 import com.sige.application.enums.StatusCarrinho;
 import com.sige.application.enums.StatusPagamento;
 import com.sige.application.exception.CampoException;
@@ -110,6 +111,31 @@ public class CarrinhoResource {
         }
 
         return repository.save(carrinho);
+    }
+
+    @PostMapping(path = "/finalizar")
+    public Carrinho finalizar(@RequestBody Carrinho carrinho){
+        if(carrinho.getFormaPagamento().equals(FormaPagamento.PIX)){
+            carrinho.setStatusPagamento(StatusPagamento.P);
+        }else{
+            carrinho.setStatusPagamento(StatusPagamento.A);
+        }
+
+        int invalidos = 0;
+        for(ItemCarrinho itemCarrinho : carrinho.getItemCarrinhos()){
+            if(itemCarrinho.getIngresso().getCpf().equals("") || itemCarrinho.getIngresso().getNome().equals("")){
+                invalidos++;
+            }
+        }
+
+        if(invalidos > 0){
+            throw new CampoException("ingresso", "Existem ingressos sem nome ou CPF", "Existem ingressos sem nome ou CPF", ExceptionOperacao.C);
+        }
+
+        carrinho.setStatusCarrinho(StatusCarrinho.F);
+
+        return repository.save(carrinho);
+
     }
 
 
