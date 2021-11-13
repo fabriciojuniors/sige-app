@@ -88,7 +88,7 @@ public class CarrinhoResource {
                 Logger.getLogger("EVENTO").info("Permitida venda: " + permitidaVenda);
 
                 if(vendido >= permitidaLocal  || previsao > permitidaLocal){
-                    if(permitidaLocal < vendido){
+                    if(permitidaLocal > vendido){
                         throw new CampoException("local.capacidade", "Para este evento os ingressos disponíveis são " + permitidaVenda, "Para este evento os ingressos disponíveis são " + permitidaVenda, ExceptionOperacao.C);
                     }else{
                         throw new CampoException("local.capacidade", "Para este evento já foram vendidos todos os ingressos.", "Para este evento já foram vendidos todos os ingressos.", ExceptionOperacao.C);
