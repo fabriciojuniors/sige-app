@@ -12,4 +12,7 @@ public interface EventoRepository extends JpaRepository<Evento, Long> {
     //lower(concat('%', :nameToFind,'%'))")
     @Query("select e from Evento e where lower(e.nome) like lower(concat('%', ?1, '%'))")
     Page<Evento> findAllByNome(String nome, Pageable page);
+
+    @Query("select count(i) from Ingresso i where i.evento = ?1")
+    long getIngressosVendidos(Evento evento);
 }

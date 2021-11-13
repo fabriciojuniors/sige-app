@@ -4,16 +4,17 @@ import com.sige.application.enums.ExceptionOperacao;
 import com.sige.application.enums.StatusCarrinho;
 import com.sige.application.enums.StatusPagamento;
 import com.sige.application.exception.CampoException;
-import com.sige.application.model.Carrinho;
-import com.sige.application.model.Cartao;
-import com.sige.application.model.ItemCarrinho;
-import com.sige.application.model.Usuario;
-import com.sige.application.repository.CarrinhoRepository;
-import com.sige.application.repository.UsuarioRepository;
+import com.sige.application.model.*;
+import com.sige.application.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/carrinho")
@@ -24,6 +25,18 @@ public class CarrinhoResource {
 
     @Autowired
     UsuarioRepository usuarioRepository;
+
+    @Autowired
+    ItemCarrinhoRepository itemCarrinhoRepository;
+
+    @Autowired
+    ParametrosRepository parametrosRepository;
+
+    @Autowired
+    EventoRepository eventoRepository;
+
+    @Autowired
+    IngressoRepository ingressoRepository;
 
     @GetMapping(value = "/{id}")
     public Carrinho getByUsuario(@PathVariable int id){
@@ -46,8 +59,46 @@ public class CarrinhoResource {
     @PostMapping()
     public Carrinho save(@Valid @RequestBody Carrinho carrinho){
         if(!carrinho.getItemCarrinhos().isEmpty()){
+            Parametros parametros = parametrosRepository.findById(1L).get();
+            List<ItemCarrinho> itens = carrinho.getItemCarrinhos();
+            Map<Evento, Integer> eventos = new HashMap<Evento, Integer>();
+
+            //Quantidade de ingressos por evento no carrinho
+            itens.forEach(itemCarrinho -> {
+                if(eventos.containsKey(itemCarrinho.getIngresso().getEvento()) && itemCarrinho.getIngresso().getId() == 0){
+                    Integer qtd = eventos.get(itemCarrinho.getIngresso().getEvento());
+                    qtd += 1;
+                    eventos.replace(itemCarrinho.getIngresso().getEvento(), qtd);
+                }else if(itemCarrinho.getIngresso().getId() == 0){
+                    eventos.put(itemCarrinho.getIngresso().getEvento(), 1);
+                }
+            });
+
+            eventos.forEach((evento, qtd) -> {
+                long permitidaLocal = evento.getLocal().getCapacidadeDisponivel(parametros);
+                long vendido = eventoRepository.getIngressosVendidos(evento);
+                long previsao = vendido + qtd;
+                long permitidaVenda = permitidaLocal - vendido;
+
+                Logger.getLogger("EVENTO").info("Permitida local: " + permitidaLocal);
+                Logger.getLogger("EVENTO").info("Vendido: " + vendido);
+                Logger.getLogger("EVENTO").info("Previsão: " + previsao);
+                Logger.getLogger("EVENTO").info("Permitida venda: " + permitidaVenda);
+
+                if(vendido >= permitidaLocal  || previsao >= permitidaLocal){
+                    if(permitidaLocal < vendido){
+                        throw new CampoException("local.capacidade", "Para este evento os ingressos disponíveis são " + permitidaVenda, "Para este evento os ingressos disponíveis são " + permitidaVenda, ExceptionOperacao.C);
+                    }else{
+                        throw new CampoException("local.capacidade", "Para este evento já foram vendidos todos os ingressos.", "Para este evento já foram vendidos todos os ingressos.", ExceptionOperacao.C);
+                    }
+                }
+            });
+
             double valorTotal = 0;
             for(ItemCarrinho itemCarrinho : carrinho.getItemCarrinhos()){
+                Ingresso ingresso = ingressoRepository.save(itemCarrinho.getIngresso());
+                itemCarrinho.setIngresso(ingresso);
+                itemCarrinho = itemCarrinhoRepository.save(itemCarrinho);
                 valorTotal += itemCarrinho.getIngresso().getEvento().getValorIngresso();
             }
 
