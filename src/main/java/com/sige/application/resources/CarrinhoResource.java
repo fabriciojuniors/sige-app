@@ -36,7 +36,7 @@ public class CarrinhoResource {
         Carrinho carrinho = repository.getByUsuario(usuario, StatusCarrinho.A);
 
         if(carrinho == null){
-            carrinho = new Carrinho(0, usuario, null ,0, null, null, null, StatusCarrinho.A);
+            carrinho = new Carrinho(0, usuario, null ,0, null, null, StatusPagamento.S, StatusCarrinho.A);
             carrinho = repository.save(carrinho);
         }
 
