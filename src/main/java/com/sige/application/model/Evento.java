@@ -50,13 +50,13 @@ public class Evento implements Serializable {
     @Min(value = 0, message = "O valor minimo é R$0")
     private double valorIngresso;
 
-    @Column(name = "imagem64", columnDefinition = "TEXT")
-    private String imagem64;
+    /*@Column(name = "imagem64", columnDefinition = "TEXT")
+    private String imagem64;*/
 
     @Column(name = "gera_certificado")
     private boolean geraCertificado;
 
-    public Evento(Long id, String nome, String detalhes, LocalDate data, Time hora, double duracao, Local local, List<Parceiro> parceiros, double valorIngresso, String imagem64, boolean geraCertificado) {
+    public Evento(Long id, String nome, String detalhes, LocalDate data, Time hora, double duracao, Local local, List<Parceiro> parceiros, double valorIngresso, boolean geraCertificado) {
         this.id = id;
         this.nome = nome;
         this.detalhes = detalhes;
@@ -66,7 +66,6 @@ public class Evento implements Serializable {
         this.local = local;
         this.parceiros = parceiros;
         this.valorIngresso = valorIngresso;
-        this.imagem64 = imagem64;
         this.geraCertificado = geraCertificado;
     }
 
@@ -158,13 +157,13 @@ public class Evento implements Serializable {
         return this.data.format(formato);
     }
 
-    public String getImagem64() {
+   /* public String getImagem64() {
         return imagem64;
     }
 
     public void setImagem64(String imagem64) {
         this.imagem64 = imagem64;
-    }
+    }*/
 
     @Override
     public boolean equals(Object o) {
