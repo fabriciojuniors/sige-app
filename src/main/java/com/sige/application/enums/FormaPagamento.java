@@ -2,7 +2,8 @@ package com.sige.application.enums;
 
 public enum FormaPagamento {
     PIX("Pix"),
-    CARTAO("Cartao");
+    CARTAO("Cartao"),
+    GRATIS("Grátis");
 
     private String descricao;
 

@@ -123,6 +123,8 @@ public class CarrinhoResource {
     public Carrinho finalizar(@RequestBody Carrinho carrinho){
         if(carrinho.getFormaPagamento().equals(FormaPagamento.PIX)){
             carrinho.setStatusPagamento(StatusPagamento.P);
+        }else if(carrinho.getFormaPagamento().equals(FormaPagamento.GRATIS)){
+            carrinho.setStatusPagamento(StatusPagamento.S);
         }else{
             carrinho.setStatusPagamento(StatusPagamento.A);
         }
