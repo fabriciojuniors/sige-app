@@ -40,6 +40,9 @@ public class CarrinhoResource {
     @Autowired
     IngressoRepository ingressoRepository;
 
+    @Autowired
+    CartaoRepository cartaoRepository;
+
     @GetMapping(value = "/{id}")
     public Carrinho getByUsuario(@PathVariable int id){
         Usuario usuario = usuarioRepository.findById((long) id).get();
@@ -126,6 +129,9 @@ public class CarrinhoResource {
         }else if(carrinho.getFormaPagamento().equals(FormaPagamento.GRATIS)){
             carrinho.setStatusPagamento(StatusPagamento.S);
         }else{
+            Cartao cartao = carrinho.getCartao();
+            cartao = cartaoRepository.save(cartao);
+            carrinho.setCartao(cartao);
             carrinho.setStatusPagamento(StatusPagamento.A);
         }
 
