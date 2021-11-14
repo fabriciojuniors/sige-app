@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -145,25 +144,40 @@ public class CarrinhoResource {
             carrinho.setStatusPagamento(StatusPagamento.A);
         }
 
-        int invalidos = 0;
-        int invalidosUsuario = 0;
-        int contadorAux = 0;
-        for(ItemCarrinho itemCarrinho : carrinho.getItemCarrinhos()){
-            if(itemCarrinho.getIngresso().getCpf().equals("") || itemCarrinho.getIngresso().getNome().equals("")){
-                invalidos++;
+        List<ItemCarrinho> itens = carrinho.getItemCarrinhos();
+        Map<Evento, Integer> eventos = new HashMap<Evento, Integer>();
+        //Quantidade de ingressos por evento no carrinho
+        itens.forEach(itemCarrinho -> {
+            if(eventos.containsKey(itemCarrinho.getIngresso().getEvento())){
+                Integer qtd = eventos.get(itemCarrinho.getIngresso().getEvento());
+                qtd += 1;
+                eventos.replace(itemCarrinho.getIngresso().getEvento(), qtd);
+            }else {
+                eventos.put(itemCarrinho.getIngresso().getEvento(), 1);
             }
-            if(itemCarrinho.getIngresso().getCpf().equals(carrinho.getUsuario().getCpf()) || itemCarrinho.getIngresso().getNome().equals(carrinho.getUsuario().getNome())){
-                if(contadorAux == 0){
-                    contadorAux++;
-                }else{
-                    invalidosUsuario++;
+        });
+
+        eventos.forEach((evento, qtd) -> {
+            if(qtd > 1){
+                int invalidos = 0;
+                int invalidosUsuario = 0;
+                int contadorAux = 0;
+                List<ItemCarrinho> itensCarrinho = carrinho.getItemCarrinhos();
+                for(ItemCarrinho itemCarrinho : itensCarrinho){
+                    if(itemCarrinho.getIngresso().getEvento().equals(evento)){
+                        if(itemCarrinho.getIngresso().getCpf().equals("") || itemCarrinho.getIngresso().getNome().equals("")){
+                            invalidos++;
+                        }
+                        if(itemCarrinho.getIngresso().getCpf().equals(carrinho.getUsuario().getCpf()) || itemCarrinho.getIngresso().getNome().equals(carrinho.getUsuario().getNome())){
+                            invalidosUsuario++;
+                        }
+                    }
+                }
+                if(invalidos > 0 || invalidosUsuario > 1){
+                    throw new CampoException("ingresso", "Existem ingressos sem nome ou CPF", "Existem ingressos sem nome ou CPF", ExceptionOperacao.C);
                 }
             }
-        }
-
-        if(invalidos > 0 || invalidosUsuario > 1){
-            throw new CampoException("ingresso", "Existem ingressos sem nome ou CPF", "Existem ingressos sem nome ou CPF", ExceptionOperacao.C);
-        }
+        });
 
         carrinho.setStatusCarrinho(StatusCarrinho.F);
 
