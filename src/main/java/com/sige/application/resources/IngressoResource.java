@@ -33,7 +33,7 @@ public class IngressoResource {
         return repository.findById((long) id).get();
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/usuario/{userId}")
     public List<Ingresso> getByUser(@PathVariable int id){
         Usuario usuario = usuarioRepository.findById((long) id).get();
 
