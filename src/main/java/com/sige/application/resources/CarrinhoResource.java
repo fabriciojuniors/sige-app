@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -178,6 +179,11 @@ public class CarrinhoResource {
                 }
             }
         });
+        List<Ingresso> ingressos = new LinkedList<>();
+        carrinho.getItemCarrinhos().forEach(itemCarrinho -> {
+            ingressos.add(itemCarrinho.getIngresso());
+        });
+        ingressoRepository.saveAll(ingressos);
 
         carrinho.setStatusCarrinho(StatusCarrinho.F);
 
