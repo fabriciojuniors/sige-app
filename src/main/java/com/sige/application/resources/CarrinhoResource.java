@@ -16,6 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/carrinho")
@@ -59,10 +60,15 @@ public class CarrinhoResource {
 
     @PostMapping()
     public Carrinho save(@Valid @RequestBody Carrinho carrinho){
+        Carrinho carrinhoOld = repository.findById(carrinho.getId()).get();
+
         if(!carrinho.getItemCarrinhos().isEmpty()){
             Parametros parametros = parametrosRepository.findById(1L).get();
             Logger.getLogger("PARAMETROS").info("Percentual permitido: " + parametros.getPercentualCapacidade());
-            List<ItemCarrinho> itens = carrinho.getItemCarrinhos();
+            List<ItemCarrinho> itensAux = carrinho.getItemCarrinhos();
+            itensAux.addAll(carrinhoOld.getItemCarrinhos());
+
+            List<ItemCarrinho> itens = itensAux.stream().distinct().collect(Collectors.toList());
             Map<Evento, Integer> eventos = new HashMap<Evento, Integer>();
 
             //Quantidade de ingressos por evento no carrinho
