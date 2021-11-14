@@ -3,6 +3,7 @@ package com.sige.application.resources;
 import com.sige.application.enums.ExceptionOperacao;
 import com.sige.application.enums.StatusCarrinho;
 import com.sige.application.enums.StatusIngresso;
+import com.sige.application.enums.StatusPagamento;
 import com.sige.application.exception.CampoException;
 import com.sige.application.model.*;
 import com.sige.application.repository.CarrinhoRepository;
@@ -50,9 +51,11 @@ public class IngressoResource {
         List<Carrinho> carrinhos = carrinhoRepository.getByUsuarioList(usuario, StatusCarrinho.F);
         List<Ingresso> ingressos = new LinkedList<>();
         for(Carrinho carrinho : carrinhos){
-            for(ItemCarrinho itemCarrinho : carrinho.getItemCarrinhos()){
-                if(itemCarrinho.getIngresso().getStatusIngresso().equals(StatusIngresso.EMITIDO)){
-                    ingressos.add(itemCarrinho.getIngresso());
+            if(carrinho.getStatusPagamento().equals(StatusPagamento.A) || carrinho.getStatusPagamento().equals(StatusPagamento.S)) {
+                for (ItemCarrinho itemCarrinho : carrinho.getItemCarrinhos()) {
+                    if (itemCarrinho.getIngresso().getStatusIngresso().equals(StatusIngresso.EMITIDO)) {
+                        ingressos.add(itemCarrinho.getIngresso());
+                    }
                 }
             }
         }
