@@ -60,13 +60,10 @@ public class CarrinhoResource {
 
     @PostMapping()
     public Carrinho save(@Valid @RequestBody Carrinho carrinho){
-        Carrinho carrinhoOld = repository.findById(carrinho.getId()).get();
-
         if(!carrinho.getItemCarrinhos().isEmpty()){
             Parametros parametros = parametrosRepository.findById(1L).get();
             Logger.getLogger("PARAMETROS").info("Percentual permitido: " + parametros.getPercentualCapacidade());
             List<ItemCarrinho> itens = carrinho.getItemCarrinhos();
-            itens.addAll(carrinhoOld.getItemCarrinhos());
             Map<Evento, Integer> eventos = new HashMap<Evento, Integer>();
 
             //Quantidade de ingressos por evento no carrinho
