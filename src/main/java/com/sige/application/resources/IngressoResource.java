@@ -1,6 +1,7 @@
 package com.sige.application.resources;
 
 import com.sige.application.enums.ExceptionOperacao;
+import com.sige.application.enums.StatusIngresso;
 import com.sige.application.exception.CampoException;
 import com.sige.application.model.Ingresso;
 import com.sige.application.model.Parametros;
@@ -42,5 +43,14 @@ public class IngressoResource {
         }
 
         return repository.getByUsuario(usuario);
+    }
+
+    @GetMapping("/autorizar/{id}")
+    public Ingresso autorizar(@PathVariable int id){
+        Ingresso ingresso = repository.findById((long) id).get();
+
+        ingresso.setStatusIngresso(StatusIngresso.AUTORIZADO);
+        return  repository.save(ingresso);
+
     }
 }

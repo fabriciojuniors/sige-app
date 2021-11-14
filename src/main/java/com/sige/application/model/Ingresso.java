@@ -1,5 +1,6 @@
 package com.sige.application.model;
 
+import com.sige.application.enums.StatusIngresso;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
@@ -30,12 +31,17 @@ public class Ingresso implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     private Usuario usuario;
 
-    public Ingresso(Long id, Evento evento, String cpf, String nome, Usuario usuario) {
+    @Column(name = "status_ingresso")
+    @Enumerated(EnumType.STRING)
+    private StatusIngresso statusIngresso;
+
+    public Ingresso(Long id, Evento evento, String cpf, String nome, Usuario usuario, StatusIngresso statusIngresso) {
         this.id = id;
         this.evento = evento;
         this.cpf = cpf;
         this.nome = nome;
         this.usuario = usuario;
+        this.statusIngresso = statusIngresso;
     }
 
     public Ingresso() {
@@ -59,6 +65,14 @@ public class Ingresso implements Serializable {
 
     public String getCpf() {
         return cpf;
+    }
+
+    public StatusIngresso getStatusIngresso() {
+        return statusIngresso;
+    }
+
+    public void setStatusIngresso(StatusIngresso statusIngresso) {
+        this.statusIngresso = statusIngresso;
     }
 
     public void setCpf(String cpf) {
