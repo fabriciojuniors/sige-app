@@ -147,12 +147,17 @@ public class CarrinhoResource {
 
         int invalidos = 0;
         int invalidosUsuario = 0;
+        int contadorAux = 0;
         for(ItemCarrinho itemCarrinho : carrinho.getItemCarrinhos()){
             if(itemCarrinho.getIngresso().getCpf().equals("") || itemCarrinho.getIngresso().getNome().equals("")){
                 invalidos++;
             }
             if(itemCarrinho.getIngresso().getCpf().equals(carrinho.getUsuario().getCpf()) || itemCarrinho.getIngresso().getNome().equals(carrinho.getUsuario().getNome())){
-                invalidosUsuario++;
+                if(contadorAux == 0){
+                    contadorAux++;
+                }else{
+                    invalidosUsuario++;
+                }
             }
         }
 
