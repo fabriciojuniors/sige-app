@@ -145,7 +145,16 @@ public class CarrinhoResource {
         carrinho.setStatusCarrinho(StatusCarrinho.F);
 
         return repository.save(carrinho);
+    }
 
+    @DeleteMapping(path = "/{usuario}/{item}")
+    public Carrinho removerItem(@PathVariable long usuario, @PathVariable long item){
+        Usuario usuarioObj = usuarioRepository.findById(usuario).get();
+        Carrinho carrinhoOld = repository.getByUsuario(usuarioObj, StatusCarrinho.A);
+
+        carrinhoOld.getItemCarrinhos().removeAll(carrinhoOld.getItemCarrinhos().stream().filter(itemCarrinho -> itemCarrinho.getId() == item).collect(Collectors.toList()));
+
+        return repository.save(carrinhoOld);
     }
 
 
