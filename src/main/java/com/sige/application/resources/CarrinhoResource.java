@@ -202,5 +202,21 @@ public class CarrinhoResource {
         return repository.getByStatusPagamento(StatusPagamento.P);
     }
 
+    @PostMapping(path = "/autorizar/{id}")
+    public Carrinho autorizar(@PathVariable long id){
+        Carrinho carrinho = repository.findById(id).get();
+        carrinho.setStatusPagamento(StatusPagamento.A);
+
+        return repository.save(carrinho);
+    }
+
+    @PostMapping(path = "/negar/{id}")
+    public Carrinho negar(@PathVariable long id){
+        Carrinho carrinho = repository.findById(id).get();
+        carrinho.setStatusPagamento(StatusPagamento.N);
+
+        return repository.save(carrinho);
+    }
+
 
 }
