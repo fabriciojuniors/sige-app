@@ -71,11 +71,11 @@ public class CarrinhoResource {
 
             //Quantidade de ingressos por evento no carrinho
             itens.forEach(itemCarrinho -> {
-                if(eventos.containsKey(itemCarrinho.getIngresso().getEvento()) && itemCarrinho.getIngresso().getId() == 0){
+                if(eventos.containsKey(itemCarrinho.getIngresso().getEvento())){
                     Integer qtd = eventos.get(itemCarrinho.getIngresso().getEvento());
                     qtd += 1;
                     eventos.replace(itemCarrinho.getIngresso().getEvento(), qtd);
-                }else if(itemCarrinho.getIngresso().getId() == 0){
+                }else {
                     eventos.put(itemCarrinho.getIngresso().getEvento(), 1);
                 }
             });
