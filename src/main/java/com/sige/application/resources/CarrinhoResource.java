@@ -197,5 +197,10 @@ public class CarrinhoResource {
         return repository.save(carrinhoOld);
     }
 
+    @GetMapping(path = "/pendentes-autorizacao")
+    public List<Carrinho> pendentes(){
+        return repository.getByStatusPagamento(StatusPagamento.P);
+    }
+
 
 }
