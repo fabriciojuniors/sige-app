@@ -45,7 +45,7 @@ public class IngressoResource {
         return repository.getByUsuario(usuario);
     }
 
-    @GetMapping("/autorizar/{id}")
+    @PostMapping("/autorizar/{id}")
     public Ingresso autorizar(@PathVariable int id){
         Ingresso ingresso = repository.findById((long) id).get();
 
