@@ -42,7 +42,7 @@ public class IngressoResource {
             throw new CampoException("Usuario", "Não encontrado usuário para o id informado", "Não encontrado usuário para o id informado", ExceptionOperacao.L);
         }
 
-        return repository.getByUsuario(usuario);
+        return repository.getByUsuario(usuario, StatusIngresso.EMITIDO);
     }
 
     @PostMapping("/autorizar/{id}")
