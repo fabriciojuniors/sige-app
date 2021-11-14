@@ -12,4 +12,7 @@ public interface CarrinhoRepository extends JpaRepository<Carrinho, Long> {
 
     @Query("select c from Carrinho c where c.usuario = ?1 and c.statusCarrinho = ?2")
     Carrinho getByUsuario(Usuario usuario, StatusCarrinho statusCarrinho);
+
+    @Query("select c from Carrinho c where c.usuario = ?1 and c.statusCarrinho = ?2")
+    List<Carrinho> getByUsuarioList(Usuario usuario, StatusCarrinho statusCarrinho);
 }

@@ -1,17 +1,19 @@
 package com.sige.application.resources;
 
 import com.sige.application.enums.ExceptionOperacao;
+import com.sige.application.enums.StatusCarrinho;
 import com.sige.application.enums.StatusIngresso;
 import com.sige.application.exception.CampoException;
-import com.sige.application.model.Ingresso;
-import com.sige.application.model.Parametros;
-import com.sige.application.model.Usuario;
+import com.sige.application.model.*;
+import com.sige.application.repository.CarrinhoRepository;
+import com.sige.application.repository.CartaoRepository;
 import com.sige.application.repository.IngressoRepository;
 import com.sige.application.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.LinkedList;
 import java.util.List;
 
 @RestController
@@ -23,6 +25,9 @@ public class IngressoResource {
 
     @Autowired
     UsuarioRepository usuarioRepository;
+
+    @Autowired
+    CarrinhoRepository carrinhoRepository;
 
     @PostMapping
     public Ingresso save(@Valid @RequestBody Ingresso ingresso){
@@ -42,7 +47,17 @@ public class IngressoResource {
             throw new CampoException("Usuario", "Não encontrado usuário para o id informado", "Não encontrado usuário para o id informado", ExceptionOperacao.L);
         }
 
-        return repository.getByUsuario(usuario, StatusIngresso.EMITIDO);
+        List<Carrinho> carrinhos = carrinhoRepository.getByUsuarioList(usuario, StatusCarrinho.F);
+        List<Ingresso> ingressos = new LinkedList<>();
+        for(Carrinho carrinho : carrinhos){
+            for(ItemCarrinho itemCarrinho : carrinho.getItemCarrinhos()){
+                if(itemCarrinho.getIngresso().getStatusIngresso().equals(StatusIngresso.EMITIDO)){
+                    ingressos.add(itemCarrinho.getIngresso());
+                }
+            }
+        }
+
+        return ingressos;
     }
 
     @PostMapping("/autorizar/{id}")
