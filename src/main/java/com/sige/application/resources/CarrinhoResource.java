@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -124,12 +125,21 @@ public class CarrinhoResource {
 
     @PostMapping(path = "/finalizar")
     public Carrinho finalizar(@RequestBody Carrinho carrinho){
+        LocalDate hoje = LocalDate.now();
         if(carrinho.getFormaPagamento().equals(FormaPagamento.PIX)){
             carrinho.setStatusPagamento(StatusPagamento.P);
         }else if(carrinho.getFormaPagamento().equals(FormaPagamento.GRATIS)){
             carrinho.setStatusPagamento(StatusPagamento.S);
         }else{
             Cartao cartao = carrinho.getCartao();
+
+            if(cartao.getAnoVencimento() < hoje.getYear()){
+                throw new CampoException("cartao.anoVencimento", "O ano de vencimento do cartão não pde ser inferior a " + hoje.getYear(), "O ano de vencimento do cartão não pde ser inferior a " + hoje.getYear(), ExceptionOperacao.C);
+            }
+            if(cartao.getAnoVencimento() == hoje.getYear() && cartao.getMesVencimento() < hoje.getMonthValue()){
+                throw new CampoException("cartao.anoVencimento", "O cartão já está vencido", "O cartão já está vencido", ExceptionOperacao.C);
+            }
+
             cartao = cartaoRepository.save(cartao);
             carrinho.setCartao(cartao);
             carrinho.setStatusPagamento(StatusPagamento.A);
