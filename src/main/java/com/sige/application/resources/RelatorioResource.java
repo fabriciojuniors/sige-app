@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import javax.websocket.server.PathParam;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 @RestController()
 @RequestMapping("/relatorio")
@@ -37,7 +40,7 @@ public class RelatorioResource {
     }
 
     @GetMapping(value = "/{relatorio}")
-    public void rel(HttpServletResponse response, @PathVariable(name = "relatorio") String r) throws Exception {
+    public void rel(HttpServletResponse response, @PathVariable(name = "relatorio") String r, @PathParam("evento") Long evento) throws Exception {
         Relatorios relatorio = null;
         try{
             relatorio = Relatorios.valueOf(r.toUpperCase());
@@ -55,7 +58,15 @@ public class RelatorioResource {
         response.setHeader("Content-Disposition", "inline; filename="+relatorio.getPdf());
 
         OutputStream outputStream = response.getOutputStream();
-        exportReport(outputStream, relatorio, null);
+        if(relatorio.equals(Relatorios.EVENTOS)){
+            Map<String, Object> parametros = new HashMap<String, Object>();
+            parametros.put("id_evento", evento);
+            Logger.getLogger("PARAMETROS RELATÓRIO").info(evento+"");
+
+            exportReport(outputStream, relatorio, parametros);
+        }else{
+            exportReport(outputStream, relatorio, null);
+        }
 
     }
 
