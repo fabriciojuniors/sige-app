@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Certificado" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="69bdcb7a-7fd4-454b-acd4-285ba57af393">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Dados.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="id_ingresso" class="java.lang.Long" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[SELECT ingresso.nome,
+	ingresso.cpf,
+	to_char(eventos.data, 'dd/MM/yyyy') as "data",
+	round((eventos.duracao/60)::numeric, 2) as "duracao",
+	eventos.nome as "evento"
+FROM ingresso
+	INNER JOIN eventos ON 
+	 ingresso.id_evento = eventos.id
+WHERE ingresso.id = $P{id_ingresso}	 ]]>
+	</queryString>
+	<field name="nome" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nome"/>
+		<property name="com.jaspersoft.studio.field.label" value="nome"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ingresso"/>
+	</field>
+	<field name="cpf" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="cpf"/>
+		<property name="com.jaspersoft.studio.field.label" value="cpf"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ingresso"/>
+	</field>
+	<field name="data" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="data"/>
+		<property name="com.jaspersoft.studio.field.label" value="data"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="eventos"/>
+	</field>
+	<field name="duracao" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="duracao"/>
+		<property name="com.jaspersoft.studio.field.label" value="duracao"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="eventos"/>
+	</field>
+	<field name="evento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="evento"/>
+		<property name="com.jaspersoft.studio.field.label" value="evento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="eventos"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="479" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="54" width="800" height="76" uuid="fb08dc23-7bd0-4685-8e93-a58a5aeccf74"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="42" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Certificado de participação]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="160" width="800" height="180" uuid="6286450d-eef7-49e6-9d42-f3de036cb288"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="25"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Certificamos que o Sr(a) " + $F{nome} + ", portador do CPF "+ $F{cpf} +" participou do evento " + $F{evento} +" realizado no dia " + $F{data} + " com a carga horária de " + $F{duracao} + " horas."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="384" width="800" height="36" uuid="f8dccae4-f1f5-492f-b553-7114ee5aa5a0"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="19"/>
+				</textElement>
+				<text><![CDATA[Gerado e autenticado por SIGE - Sistema gerenciador de eventos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="420" width="390" height="30" uuid="625ada96-0b8b-495c-ad97-93017a37e22b"/>
+				<textElement textAlignment="Right">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Emitido em ]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="393" y="420" width="410" height="30" uuid="f1fa8011-b491-4133-9c20-178605643a96"/>
+				<textElement textAlignment="Left">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="700" y="20" width="100" height="90" uuid="8915b2be-eec1-4692-86ef-c5e6cee78c02"/>
+				<imageExpression><![CDATA["SIGE.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="0" y="0" width="120" height="120" uuid="437935a0-cc65-43aa-bf5a-e4cbd10d6836"/>
+				<imageExpression><![CDATA["Certificado.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+</jasperReport>
