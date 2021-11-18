@@ -6,10 +6,7 @@ import com.sige.application.enums.StatusIngresso;
 import com.sige.application.enums.StatusPagamento;
 import com.sige.application.exception.CampoException;
 import com.sige.application.model.*;
-import com.sige.application.repository.CarrinhoRepository;
-import com.sige.application.repository.CartaoRepository;
-import com.sige.application.repository.IngressoRepository;
-import com.sige.application.repository.UsuarioRepository;
+import com.sige.application.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +26,9 @@ public class IngressoResource {
 
     @Autowired
     CarrinhoRepository carrinhoRepository;
+
+    @Autowired
+    EventoRepository eventoRepository;
 
     @PostMapping
     public Ingresso save(@Valid @RequestBody Ingresso ingresso){
@@ -70,5 +70,16 @@ public class IngressoResource {
         ingresso.setStatusIngresso(StatusIngresso.AUTORIZADO);
         return  repository.save(ingresso);
 
+    }
+
+    @GetMapping(value = "/evento/{id}")
+    public List<Ingresso> getAllByEvento(@PathVariable int id){
+        Evento evento = eventoRepository.findById((long) id).get();
+
+        if(evento == null || evento.getId().equals(null)){
+            throw new CampoException("evento.id", "Não localizado evento para o id informado", "Não localizado evento para o id informado", ExceptionOperacao.L);
+        }
+
+        return repository.getByEvento(evento);
     }
 }
