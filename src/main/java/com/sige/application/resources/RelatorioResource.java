@@ -106,7 +106,7 @@ public class RelatorioResource {
             }
             try {
                 String rel = "https://sige-app.herokuapp.com/relatorio/certificado?ingresso="+ingresso;
-                helper.setText("<h3>Olá, "+i.getNome()+"</h3> <p>Seu certificado de participação  no evento"+i.getNome()+" já está disponível! <a href=\""+rel+"\">Clique aqui para acessá-lo</a></p>", true);
+                helper.setText("<h3>Olá, "+i.getNome()+"</h3> <p>Seu certificado de participação  no evento "+i.getEvento().getNome()+" já está disponível! <a href=\""+rel+"\">Clique aqui para acessá-lo</a></p>", true);
             } catch (MessagingException e) {
                 e.printStackTrace();
             }
