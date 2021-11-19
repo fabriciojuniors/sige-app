@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class EventoController {
 
@@ -37,7 +39,7 @@ public class EventoController {
 
     public Page<Evento> getAllMobile(int pagina){
         Pageable pageable = PageRequest.of(pagina-1, 10, Sort.by(Sort.Order.by("id")));
-        return repository.findAll(pageable) ;
+        return repository.findAllMobile(LocalDate.now(), pageable) ;
     }
 
     public Page<Evento> getAllMobile(int pagina, String filtro){
