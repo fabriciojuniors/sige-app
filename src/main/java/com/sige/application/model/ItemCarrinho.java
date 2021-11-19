@@ -2,6 +2,7 @@ package com.sige.application.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import javax.validation.Valid;
 
 @Entity
 @Table(name = "item_carrinho")
@@ -14,6 +15,7 @@ public class ItemCarrinho implements Serializable {
 
     @JoinColumn(name = "id_ingresso", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
+    @Valid
     private Ingresso ingresso;
 
     public ItemCarrinho(long id, Ingresso ingresso) {
