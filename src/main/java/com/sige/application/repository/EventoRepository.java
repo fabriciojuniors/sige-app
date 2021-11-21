@@ -17,6 +17,9 @@ public interface EventoRepository extends JpaRepository<Evento, Long> {
     @Query("select e from Evento e where e.data >= ?1")
     Page<Evento> findAllMobile(LocalDate hoje, Pageable page);
 
+    @Query("select count(e) from Evento e where e.data >= ?1")
+    Integer eventosAtivos(LocalDate hoje);
+
     @Query("select count(i) from Ingresso i where i.evento = ?1")
     long getIngressosVendidos(Evento evento);
 }

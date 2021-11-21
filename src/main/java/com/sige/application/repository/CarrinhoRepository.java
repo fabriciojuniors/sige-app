@@ -18,4 +18,7 @@ public interface CarrinhoRepository extends JpaRepository<Carrinho, Long> {
     List<Carrinho> getByUsuarioList(Usuario usuario, StatusCarrinho statusCarrinho);
 
     List<Carrinho> getByStatusPagamento(StatusPagamento statusPagamento);
+
+    @Query("select sum(c.valorTotal) from Carrinho c where c.statusPagamento = ?1")
+    Double valorTotalByStatusPagamento(StatusPagamento statusPagamento);
 }
