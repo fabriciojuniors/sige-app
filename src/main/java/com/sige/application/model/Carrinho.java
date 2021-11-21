@@ -7,6 +7,7 @@ import com.sige.application.enums.StatusPagamento;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import javax.validation.Valid;
 
 @Entity
 @Table(name = "carrinho")
@@ -23,6 +24,7 @@ public class Carrinho implements Serializable {
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(referencedColumnName = "id", nullable = true)
+    @Valid
     private List<ItemCarrinho> itemCarrinhos;
 
     @Column(name = "valor_total")

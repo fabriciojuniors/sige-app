@@ -21,7 +21,7 @@ public class Ingresso implements Serializable {
     private Evento evento;
 
     @Column(name = "cpf", nullable = false)
-    @CPF
+    @CPF(message = "CPF informado não é valido")
     private String cpf;
 
     @Column(name = "nome", nullable = false)
