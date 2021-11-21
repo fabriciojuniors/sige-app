@@ -32,7 +32,7 @@ public class DashboardResource {
         dashboard.put("ativos", eventoRepository.eventosAtivos(LocalDate.now()));
         dashboard.put("ingressos_vendidos", ingressoRepository.ingressosVendidos(LocalDate.now()));
         dashboard.put("recebimento", carrinhoRepository.valorTotalByStatusPagamento(StatusPagamento.A));
-        dashboard.put("aguardando-aprovacao", carrinhoRepository.valorTotalByStatusPagamento(StatusPagamento.P));
+        dashboard.put("aguardando_aprovacao", carrinhoRepository.valorTotalByStatusPagamento(StatusPagamento.P));
         return dashboard;
     }
 
