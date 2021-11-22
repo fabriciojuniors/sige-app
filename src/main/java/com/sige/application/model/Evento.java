@@ -1,5 +1,7 @@
 package com.sige.application.model;
 
+import com.sige.application.enums.ClassificacaoIndicativa;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -50,13 +52,17 @@ public class Evento implements Serializable {
     @Min(value = 0, message = "O valor minimo é R$0")
     private double valorIngresso;
 
+    @Column(name = "classificacao", nullable = true)
+    @Enumerated(EnumType.STRING)
+    private ClassificacaoIndicativa classificacaoIndicativa;
+
     /*@Column(name = "imagem64", columnDefinition = "TEXT")
     private String imagem64;*/
 
     @Column(name = "gera_certificado")
     private boolean geraCertificado;
 
-    public Evento(Long id, String nome, String detalhes, LocalDate data, Time hora, double duracao, Local local, List<Parceiro> parceiros, double valorIngresso, boolean geraCertificado) {
+    public Evento(Long id, String nome, String detalhes, LocalDate data, Time hora, double duracao, Local local, List<Parceiro> parceiros, double valorIngresso, boolean geraCertificado, ClassificacaoIndicativa classificacaoIndicativa) {
         this.id = id;
         this.nome = nome;
         this.detalhes = detalhes;
@@ -67,6 +73,7 @@ public class Evento implements Serializable {
         this.parceiros = parceiros;
         this.valorIngresso = valorIngresso;
         this.geraCertificado = geraCertificado;
+        this.classificacaoIndicativa = classificacaoIndicativa;
     }
 
     public Evento() {
@@ -150,6 +157,14 @@ public class Evento implements Serializable {
 
     public void setValorIngresso(double valorIngresso) {
         this.valorIngresso = valorIngresso;
+    }
+
+    public ClassificacaoIndicativa getClassificacaoIndicativa() {
+        return classificacaoIndicativa;
+    }
+
+    public void setClassificacaoIndicativa(ClassificacaoIndicativa classificacaoIndicativa) {
+        this.classificacaoIndicativa = classificacaoIndicativa;
     }
 
     public String getDataFormatada(){
