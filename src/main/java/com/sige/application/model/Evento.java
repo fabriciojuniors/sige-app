@@ -54,6 +54,7 @@ public class Evento implements Serializable {
 
     @Column(name = "classificacao", nullable = true)
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "A classificação indicativa não pode ser nula")
     private ClassificacaoIndicativa classificacaoIndicativa;
 
     /*@Column(name = "imagem64", columnDefinition = "TEXT")
