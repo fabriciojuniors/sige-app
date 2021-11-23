@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -62,6 +63,8 @@ public class CarrinhoResource {
     @PostMapping()
     public Carrinho save(@Valid @RequestBody Carrinho carrinho){
         if(!carrinho.getItemCarrinhos().isEmpty()){
+            LocalDate hoje = LocalDate.now();
+            int idade = Period.between(carrinho.getUsuario().getNascimento(), hoje).getYears();
             Parametros parametros = parametrosRepository.findById(1L).get();
             Logger.getLogger("PARAMETROS").info("Percentual permitido: " + parametros.getPercentualCapacidade());
             List<ItemCarrinho> itens = carrinho.getItemCarrinhos();
@@ -69,6 +72,9 @@ public class CarrinhoResource {
 
             //Quantidade de ingressos por evento no carrinho
             itens.forEach(itemCarrinho -> {
+                if(itemCarrinho.getIngresso().getEvento().getClassificacaoIndicativa().getIdade() > idade){
+                    throw new CampoException("classificacaoIndicativa", "Evento não permitido para menores de " + itemCarrinho.getIngresso().getEvento().getClassificacaoIndicativa().getIdade() + " anos", "Evento não permitido para menores de " + itemCarrinho.getIngresso().getEvento().getClassificacaoIndicativa().getIdade() + " anos", ExceptionOperacao.C);
+                }
                 if(eventos.containsKey(itemCarrinho.getIngresso().getEvento())){
                     Integer qtd = eventos.get(itemCarrinho.getIngresso().getEvento());
                     qtd += 1;
